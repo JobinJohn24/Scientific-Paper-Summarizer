@@ -59,40 +59,29 @@ Link: [allenai/scibert_scivocab_uncased](https://hf.co/allenai/scibert_scivocab_
 ```text
 scientific-paper-summarizer/
 │
-├── app.py
-├── index.py
-├── summarizer.py
-├── config.py
-├── requirements.txt
-├── README.md
-├── examples/
-├── data/
-└── tests/
+├── app.py              # Gradio interface for title, abstract, examples, and output
+├── index.py            # FastAPI entrypoint for Vercel-compatible deployment
+├── summarizer.py       # Model loading, prompt building, cleaning, and summary formatting
+├── config.py           # Central settings for model choice and generation parameters
+├── requirements.txt    # Python dependencies
+├── README.md           # Project documentation
+├── examples/           # Sample abstracts for testing the app
+├── data/               # Reserved for future datasets or saved outputs
+└── tests/              # Basic tests for helper logic and summary structure
 ```
-
-### File Purposes
-
-- `app.py`: Gradio interface for title input, abstract input, examples, and summary output.
-- `index.py`: FastAPI entrypoint that mounts the Gradio app for Vercel-compatible deployment.
-- `summarizer.py`: Core summarization logic, prompt building, text cleaning, fallback formatting, and model loading.
-- `config.py`: Central configuration for model name, generation settings, and example paths.
-- `requirements.txt`: Python dependencies for local setup and deployment.
-- `README.md`: Project documentation.
-- `examples/`: Example abstracts for biology/genomics, public health, and machine learning.
-- `data/`: Reserved for future datasets or saved outputs.
-- `tests/`: Basic tests for text cleaning and summary structure checks.
 
 ## System Design
 
-1. The user pastes a paper title and abstract into the Gradio app.
-2. The input text is cleaned to remove extra whitespace.
-3. The app builds an instruction prompt for the Hugging Face model.
-4. The summarization model generates a plain-English explanation.
-5. The output is checked for the required summary sections.
-6. If sections are missing, fallback logic rebuilds the response into the correct format.
-7. The final structured summary is shown in the interface.
-
-The default model is `google/flan-t5-base`, chosen because it is simple to run and responds well to structured prompts.
+```mermaid
+flowchart LR
+    A["User Pastes Title + Abstract"] --> B["Gradio App"]
+    B --> C["Clean Input Text"]
+    C --> D["Build Prompt"]
+    D --> E["Hugging Face Model<br/>google/flan-t5-base"]
+    E --> F["Check Required Sections"]
+    F --> G["Fallback Formatting if Needed"]
+    G --> H["Display Plain-English Summary"]
+```
 
 ## How To Run Locally
 
