@@ -73,15 +73,16 @@ scientific-paper-summarizer/
 ## System Design
 
 ```mermaid
-flowchart LR
-    A["User Enters Title + Abstract"] --> B["Gradio UI Receives Input"]
-    B --> C["Clean and Normalize Text"]
-    C --> D["Build Summarization Prompt"]
-    D --> E["Run Hugging Face Model<br/>google/flan-t5-base"]
-    E --> F{"All Required Sections Present?"}
-    F -- Yes --> G["Display Structured Summary"]
-    F -- No --> H["Apply Fallback Formatting"]
-    H --> G
+flowchart TD
+    A["User submits title and abstract"] --> B{"Is abstract provided?"}
+    B -- No --> C["Return validation message"]
+    B -- Yes --> D["Clean and normalize text"]
+    D --> E["Build summarization prompt"]
+    E --> F["Run Hugging Face model<br/>google/flan-t5-base"]
+    F --> G{"Are all required sections present?"}
+    G -- Yes --> H["Display structured summary"]
+    G -- No --> I["Apply fallback formatting"]
+    I --> H
 ```
 
 ## How To Run Locally
