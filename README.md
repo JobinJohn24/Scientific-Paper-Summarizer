@@ -74,13 +74,14 @@ scientific-paper-summarizer/
 
 ```mermaid
 flowchart LR
-    A["User Pastes Title + Abstract"] --> B["Gradio App"]
-    B --> C["Clean Input Text"]
-    C --> D["Build Prompt"]
-    D --> E["Hugging Face Model<br/>google/flan-t5-base"]
-    E --> F["Check Required Sections"]
-    F --> G["Fallback Formatting if Needed"]
-    G --> H["Display Plain-English Summary"]
+    A["User Enters Title + Abstract"] --> B["Gradio UI Receives Input"]
+    B --> C["Clean and Normalize Text"]
+    C --> D["Build Summarization Prompt"]
+    D --> E["Run Hugging Face Model<br/>google/flan-t5-base"]
+    E --> F{"All Required Sections Present?"}
+    F -- Yes --> G["Display Structured Summary"]
+    F -- No --> H["Apply Fallback Formatting"]
+    H --> G
 ```
 
 ## How To Run Locally
