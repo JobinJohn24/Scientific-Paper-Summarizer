@@ -58,29 +58,39 @@ Link: [allenai/scibert_scivocab_uncased](https://hf.co/allenai/scibert_scivocab_
 
 ```text
 scientific-paper-summarizer/
-│
-├── app.py              # Gradio interface for title, abstract, examples, and output
-├── index.py            # FastAPI entrypoint for Vercel-compatible deployment
-├── summarizer.py       # Model loading, prompt building, cleaning, and summary formatting
-├── config.py           # Central settings for model choice and generation parameters
-├── requirements.txt    # Python dependencies
-├── README.md           # Project documentation
-├── examples/           # Sample abstracts for testing the app
-├── data/               # Reserved for future datasets or saved outputs
-└── tests/              # Basic tests for helper logic and summary structure
+├── app.py
+├── index.py
+├── summarizer.py
+├── config.py
+├── requirements.txt
+├── README.md
+├── examples/
+├── data/
+└── tests/
 ```
+
+- `app.py`: Gradio interface for title, abstract, examples, and output
+- `index.py`: FastAPI entrypoint for Vercel-compatible deployment
+- `summarizer.py`: Model loading, prompt building, cleaning, and formatting
+- `config.py`: Central settings for model choice and generation parameters
+- `requirements.txt`: Python dependencies
+- `README.md`: Project documentation
+- `examples/`: Sample abstracts for testing
+- `data/`: Reserved for future datasets or saved outputs
+- `tests/`: Basic tests for helper logic and summary structure
 
 ## System Design
 
 ```mermaid
 flowchart TD
-    A["User submits title and abstract"] --> B{"Is abstract provided?"}
-    B -- No --> C["Return validation message"]
-    B -- Yes --> D["Clean and normalize text"]
-    D --> E["Build summarization prompt"]
-    E --> F["Run Hugging Face model<br/>google/flan-t5-base"]
-    F --> G{"Are all required sections present?"}
-    G -- Yes --> H["Display structured summary"]
+    A["User enters title and abstract"]
+    A --> B["Gradio app receives input"]
+    B --> C["Clean and normalize text"]
+    C --> D["Build summarization prompt"]
+    D --> E["Run Hugging Face model"]
+    E --> F["Check required sections"]
+    F --> G{"Sections complete?"}
+    G -- Yes --> H["Display summary"]
     G -- No --> I["Apply fallback formatting"]
     I --> H
 ```
